@@ -67,17 +67,14 @@ const LoginPage = () => {
             <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
               <KeyRound size={13} />
             </div>
-            <div className="min-w-0">
-              <p className="text-[11px] font-semibold text-slate-300">Demo Account</p>
-              <p className="text-[11px] text-slate-500 font-mono truncate">adnan@example.com</p>
-            </div>
+
           </div>
           <button
             type="button"
             onClick={fillDemo}
             className="px-2.5 py-1 rounded-md bg-[#182338] hover:bg-[#202e48] border border-[#263754] text-emerald-400 text-xs font-mono font-medium transition-colors flex-shrink-0"
           >
-            Auto-Fill
+
           </button>
         </div>
 
@@ -107,9 +104,8 @@ const LoginPage = () => {
                 <input
                   id="login-email"
                   type="email"
-                  className={`form-input pl-10 pr-3.5 text-sm ${
-                    errors.email ? 'border-rose-500/70 focus:border-rose-500' : ''
-                  }`}
+                  className={`form-input pl-10 pr-3.5 text-sm ${errors.email ? 'border-rose-500/70 focus:border-rose-500' : ''
+                    }`}
                   placeholder="name@example.com"
                   value={form.email}
                   onChange={e => {
@@ -138,9 +134,8 @@ const LoginPage = () => {
                 <input
                   id="login-password"
                   type={showPassword ? 'text' : 'password'}
-                  className={`form-input pl-10 pr-10 text-sm ${
-                    errors.password ? 'border-rose-500/70 focus:border-rose-500' : ''
-                  }`}
+                  className={`form-input pl-10 pr-10 text-sm ${errors.password ? 'border-rose-500/70 focus:border-rose-500' : ''
+                    }`}
                   placeholder="••••••••••••"
                   value={form.password}
                   onChange={e => {

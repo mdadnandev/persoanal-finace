@@ -61,22 +61,6 @@ const LoginPage = () => {
           <p className="text-xs text-slate-500 mt-1">Personal Wealth & Cash Flow Ledger</p>
         </div>
 
-        {/* Demo Account Banner */}
-        <div className="mb-4 p-3 rounded-xl bg-[#111724] border border-[#1e293f] flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
-              <KeyRound size={13} />
-            </div>
-
-          </div>
-          <button
-            type="button"
-            onClick={fillDemo}
-            className="px-2.5 py-1 rounded-md bg-[#182338] hover:bg-[#202e48] border border-[#263754] text-emerald-400 text-xs font-mono font-medium transition-colors flex-shrink-0"
-          >
-
-          </button>
-        </div>
 
         {/* Auth Card */}
         <div className="card p-6 sm:p-8 bg-[#111622] border-[#1e2638] shadow-card">

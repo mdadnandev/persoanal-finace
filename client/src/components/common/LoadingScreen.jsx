@@ -1,17 +1,18 @@
-const LoadingScreen = ({ message = 'Loading...' }) => {
+import { CreditCard } from 'lucide-react'
+
+const LoadingScreen = ({ message = 'Synchronizing ledger records...' }) => {
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center gap-6">
-      {/* Animated Logo */}
+    <div className="min-h-screen bg-[#0b0e14] flex flex-col items-center justify-center gap-4">
       <div className="relative">
-        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-violet-600 flex items-center justify-center shadow-lg glow-primary animate-pulse">
-          <span className="text-2xl">💰</span>
+        <div className="w-12 h-12 rounded-xl bg-[#111622] border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-md">
+          <CreditCard size={22} />
         </div>
-        <div className="absolute -inset-2 rounded-2xl bg-gradient-to-br from-primary-500/20 to-violet-600/20 blur-lg animate-pulse" />
+        <div className="absolute -inset-1 rounded-xl border border-emerald-500/20 animate-ping opacity-25" />
       </div>
-      {/* Spinner */}
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-8 h-8 border-2 border-slate-700 border-t-primary-500 rounded-full animate-spin" />
-        <p className="text-slate-400 text-sm font-medium">{message}</p>
+
+      <div className="flex flex-col items-center gap-2">
+        <div className="w-4 h-4 border-2 border-[#1e2638] border-t-emerald-400 rounded-full animate-spin" />
+        <p className="text-xs text-slate-400 font-mono tracking-tight">{message}</p>
       </div>
     </div>
   )

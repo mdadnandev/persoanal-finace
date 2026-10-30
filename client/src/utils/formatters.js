@@ -109,10 +109,17 @@ export const stringToColor = (str) => {
 }
 
 /**
- * CHART COLORS for Recharts
+ * CHART COLORS for Recharts - Bespoke fintech palette
  */
 export const CHART_COLORS = [
-  '#6366f1', '#8b5cf6', '#a78bfa', '#f97316', '#ec4899',
-  '#14b8a6', '#22c55e', '#eab308', '#ef4444', '#3b82f6',
-  '#06b6d4', '#84cc16', '#f59e0b', '#d946ef', '#10b981',
+  '#10b981', // Emerald
+  '#3b82f6', // Cobalt
+  '#f59e0b', // Amber
+  '#8b5cf6', // Violet
+  '#06b6d4', // Cyan
+  '#ec4899', // Pink
+  '#14b8a6', // Teal
+  '#f43f5e', // Rose
+  '#6366f1', // Indigo
+  '#84cc16', // Lime
 ]

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useFinance } from '../../context/FinanceContext'
 import Modal from '../common/Modal'
-import { Plus, Save } from 'lucide-react'
+import { Plus, Save, ArrowUpRight, ArrowDownRight } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const TransactionModal = ({ isOpen, onClose, transaction }) => {
@@ -32,8 +32,12 @@ const TransactionModal = ({ isOpen, onClose, transaction }) => {
       })
     } else {
       setForm({
-        amount: '', type: 'EXPENSE', categoryId: '',
-        description: '', date: new Date().toISOString().split('T')[0], notes: '',
+        amount: '',
+        type: 'EXPENSE',
+        categoryId: '',
+        description: '',
+        date: new Date().toISOString().split('T')[0],
+        notes: '',
       })
     }
     setErrors({})
@@ -83,100 +87,144 @@ const TransactionModal = ({ isOpen, onClose, transaction }) => {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={isEdit ? 'Edit Transaction' : 'Add Transaction'}
+      title={isEdit ? 'Modify Ledger Entry' : 'Record New Transaction'}
     >
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Type Toggle */}
-        <div className="grid grid-cols-2 gap-2">
-          {['INCOME', 'EXPENSE'].map(t => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setForm(p => ({ ...p, type: t, categoryId: '' }))}
-              className={`py-2.5 rounded-xl text-sm font-semibold border-2 transition-all
-                ${form.type === t
-                  ? t === 'INCOME'
-                    ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/50'
-                    : 'bg-red-500/15 text-red-400 border-red-500/50'
-                  : 'bg-slate-800/50 text-slate-500 border-slate-700 hover:border-slate-600'}`}
-            >
-              {t === 'INCOME' ? '↑ Income' : '↓ Expense'}
-            </button>
-          ))}
+        {/* Segmented Type Toggle */}
+        <div className="grid grid-cols-2 gap-2 p-1 rounded-lg bg-[#0e131d] border border-[#1e2638]">
+          <button
+            type="button"
+            onClick={() => setForm(p => ({ ...p, type: 'EXPENSE', categoryId: '' }))}
+            className={`py-2 px-3 rounded-md text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
+              form.type === 'EXPENSE'
+                ? 'bg-rose-500/15 text-rose-300 border border-rose-500/40 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <ArrowDownRight size={14} />
+            <span>Outflow (Expense)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setForm(p => ({ ...p, type: 'INCOME', categoryId: '' }))}
+            className={`py-2 px-3 rounded-md text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
+              form.type === 'INCOME'
+                ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <ArrowUpRight size={14} />
+            <span>Inflow (Income)</span>
+          </button>
         </div>
 
-        {/* Amount */}
+        {/* Amount Input */}
         <div>
-          <label className="form-label">Amount (₹)</label>
+          <label className="form-label">Amount</label>
           <div className="relative">
-            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">₹</span>
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-mono font-medium text-base">
+              ₹
+            </span>
             <input
-              type="number" step="0.01" min="0.01"
-              className={`form-input pl-8 ${errors.amount ? 'border-red-500/70' : ''}`}
+              type="number"
+              step="0.01"
+              min="0.01"
+              autoFocus
+              className={`form-input pl-8 text-base font-mono font-bold tracking-tight text-slate-100 ${
+                errors.amount ? 'border-rose-500/70' : ''
+              }`}
               placeholder="0.00"
               value={form.amount}
               onChange={e => setForm(p => ({ ...p, amount: e.target.value }))}
             />
           </div>
-          {errors.amount && <p className="text-red-400 text-xs mt-1">{errors.amount}</p>}
+          {errors.amount && <p className="text-rose-400 text-xs mt-1 font-mono">{errors.amount}</p>}
         </div>
 
-        {/* Category */}
+        {/* Category Dropdown */}
         <div>
           <label className="form-label">Category</label>
           <select
-            className="form-input"
+            className="form-input text-xs"
             value={form.categoryId}
             onChange={e => setForm(p => ({ ...p, categoryId: e.target.value }))}
           >
-            <option value="">Select category (optional)</option>
+            <option value="">Select Category (Optional)</option>
             {filteredCategories.map(cat => (
-              <option key={cat.id} value={cat.id}>{cat.icon} {cat.name}</option>
+              <option key={cat.id} value={cat.id}>
+                {cat.icon} {cat.name}
+              </option>
             ))}
           </select>
         </div>
 
         {/* Description */}
         <div>
-          <label className="form-label">Description</label>
+          <label className="form-label">Description / Payee</label>
           <input
-            type="text" className="form-input"
-            placeholder="What was this for?"
+            type="text"
+            className="form-input text-xs"
+            placeholder="e.g. AWS Cloud Services, Salary, Blue Tokai Coffee"
             value={form.description}
             onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
             maxLength={100}
           />
         </div>
 
-        {/* Date */}
+        {/* Date Input */}
         <div>
-          <label className="form-label">Date</label>
+          <label className="form-label">Booking Date</label>
           <input
             type="date"
-            className={`form-input ${errors.date ? 'border-red-500/70' : ''}`}
+            className={`form-input text-xs font-mono ${errors.date ? 'border-rose-500/70' : ''}`}
             value={form.date}
             onChange={e => setForm(p => ({ ...p, date: e.target.value }))}
           />
-          {errors.date && <p className="text-red-400 text-xs mt-1">{errors.date}</p>}
+          {errors.date && <p className="text-rose-400 text-xs mt-1 font-mono">{errors.date}</p>}
         </div>
 
         {/* Notes */}
         <div>
-          <label className="form-label">Notes <span className="text-slate-500 font-normal">(optional)</span></label>
+          <label className="form-label">
+            Internal Note <span className="text-slate-500 font-normal">(optional)</span>
+          </label>
           <input
-            type="text" className="form-input"
-            placeholder="Any additional notes..."
+            type="text"
+            className="form-input text-xs"
+            placeholder="Invoice reference, reimbursement tag, etc."
             value={form.notes}
             onChange={e => setForm(p => ({ ...p, notes: e.target.value }))}
             maxLength={100}
           />
         </div>
 
-        {/* Actions */}
-        <div className="flex gap-3 pt-1">
-          <button type="button" onClick={onClose} className="btn-secondary flex-1">Cancel</button>
-          <button type="submit" disabled={loading} className="btn-primary flex-1">
-            {loading ? <span className="spinner" /> : isEdit ? <><Save size={16} /> Update</> : <><Plus size={16} /> Add</>}
+        {/* Action Buttons */}
+        <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#1c263c]">
+          <button
+            type="button"
+            onClick={onClose}
+            className="btn-secondary text-xs py-2 px-3.5"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn-primary text-xs py-2 px-4"
+          >
+            {loading ? (
+              <span className="spinner" />
+            ) : isEdit ? (
+              <>
+                <Save size={14} />
+                <span>Save Changes</span>
+              </>
+            ) : (
+              <>
+                <Plus size={14} />
+                <span>Record Entry</span>
+              </>
+            )}
           </button>
         </div>
       </form>

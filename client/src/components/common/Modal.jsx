@@ -28,19 +28,23 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm animate-fade-in"
+        className="absolute inset-0 bg-black/75 backdrop-blur-[2px] animate-fade-in"
         onClick={onClose}
       />
-      {/* Modal */}
-      <div className={`relative w-full ${sizeClasses[size]} glass-card p-6 animate-slide-up`}>
+      {/* Modal Dialog */}
+      <div
+        className={`relative w-full ${sizeClasses[size] || 'max-w-md'} bg-[#111724] border border-[#222e46] rounded-xl shadow-2xl p-5 md:p-6 animate-slide-up z-10`}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-semibold text-slate-100">{title}</h2>
+        <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#1c263c]">
+          <h2 className="text-sm font-semibold text-slate-100 tracking-tight">
+            {title}
+          </h2>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-700 transition-all"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-[#182133] transition-colors"
           >
-            <X size={18} />
+            <X size={15} />
           </button>
         </div>
         {/* Content */}

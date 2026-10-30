@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { Eye, EyeOff, Mail, Lock, User, Wallet, ArrowRight, CheckCircle } from 'lucide-react'
+import { Eye, EyeOff, Mail, Lock, User, CreditCard, ArrowRight, Check } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const RegisterPage = () => {
@@ -15,10 +15,10 @@ const RegisterPage = () => {
 
   const validate = () => {
     const errs = {}
-    if (!form.name) errs.name = 'Name is required'
-    else if (form.name.length < 2) errs.name = 'Name must be at least 2 characters'
-    if (!form.email) errs.email = 'Email is required'
-    else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Invalid email format'
+    if (!form.name.trim()) errs.name = 'Full name is required'
+    else if (form.name.trim().length < 2) errs.name = 'Name must be at least 2 characters'
+    if (!form.email.trim()) errs.email = 'Email address is required'
+    else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Enter a valid email address'
     if (!form.password) errs.password = 'Password is required'
     else if (form.password.length < 6) errs.password = 'Password must be at least 6 characters'
     if (form.password !== form.confirmPassword) errs.confirmPassword = 'Passwords do not match'
@@ -35,12 +35,12 @@ const RegisterPage = () => {
     if (/[0-9]/.test(p)) score++
     if (/[^A-Za-z0-9]/.test(p)) score++
     const levels = [
-      { score: 0, label: 'Too short', color: 'bg-slate-600' },
-      { score: 1, label: 'Weak', color: 'bg-red-500' },
-      { score: 2, label: 'Fair', color: 'bg-yellow-500' },
-      { score: 3, label: 'Good', color: 'bg-blue-500' },
-      { score: 4, label: 'Strong', color: 'bg-emerald-500' },
-      { score: 5, label: 'Excellent', color: 'bg-emerald-400' },
+      { score: 0, label: 'Too short', color: 'bg-slate-700' },
+      { score: 1, label: 'Weak', color: 'bg-rose-500' },
+      { score: 2, label: 'Fair', color: 'bg-amber-500' },
+      { score: 3, label: 'Good', color: 'bg-blue-400' },
+      { score: 4, label: 'Strong', color: 'bg-emerald-400' },
+      { score: 5, label: 'Excellent', color: 'bg-emerald-300' },
     ]
     return levels[score]
   }
@@ -67,84 +67,74 @@ const RegisterPage = () => {
   const strength = passwordStrength()
 
   return (
-    <div className="min-h-screen bg-slate-950 bg-mesh flex items-center justify-center p-4">
-      <div className="w-full max-w-md animate-slide-up">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-violet-600 shadow-xl mb-4 glow-primary">
-            <Wallet size={28} className="text-white" />
+    <div className="min-h-screen bg-[#0b0e14] flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-sm">
+        {/* Brand Header */}
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 mb-3.5 shadow-sm">
+            <CreditCard size={22} />
           </div>
-          <h1 className="text-3xl font-bold gradient-text">FinTrack</h1>
-          <p className="text-slate-400 text-sm mt-2">Take control of your finances</p>
+          <h1 className="text-xl font-bold text-slate-100 tracking-tight">FinTrack</h1>
+          <p className="text-xs text-slate-500 mt-1">Create your personal ledger account</p>
         </div>
 
-        {/* Features */}
-        <div className="flex gap-4 mb-6">
-          {['Track spending', 'Visual charts', 'Secure & private'].map(f => (
-            <div key={f} className="flex items-center gap-1 text-xs text-slate-400">
-              <CheckCircle size={12} className="text-emerald-400" />
-              {f}
-            </div>
-          ))}
-        </div>
-
-        {/* Card */}
-        <div className="glass-card p-8">
-          <h2 className="text-xl font-bold text-slate-100 mb-1">Create your account</h2>
-          <p className="text-slate-400 text-sm mb-6">Free forever · No credit card required</p>
+        {/* Auth Card */}
+        <div className="card p-6 md:p-7 bg-[#111622] border-[#1e2638]">
+          <h2 className="text-sm font-semibold text-slate-200 mb-1">Get started</h2>
+          <p className="text-xs text-slate-500 mb-5">Open an isolated, private finance workspace</p>
 
           {errors.form && (
-            <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+            <div className="mb-4 p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-medium">
               {errors.form}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name */}
+          <form onSubmit={handleSubmit} className="space-y-3.5">
+            {/* Full Name */}
             <div>
-              <label className="form-label" htmlFor="reg-name">Full name</label>
+              <label className="form-label" htmlFor="reg-name">Full Name</label>
               <div className="relative">
-                <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input
                   id="reg-name"
                   type="text"
-                  className={`form-input pl-10 ${errors.name ? 'border-red-500/70' : ''}`}
-                  placeholder="John Doe"
+                  className={`form-input pl-9.5 text-xs ${errors.name ? 'border-rose-500/70' : ''}`}
+                  placeholder="e.g. Adnan Ansari"
                   value={form.name}
                   onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
                   autoComplete="name"
                 />
               </div>
-              {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
+              {errors.name && <p className="text-rose-400 text-[11px] mt-1 font-mono">{errors.name}</p>}
             </div>
 
             {/* Email */}
             <div>
-              <label className="form-label" htmlFor="reg-email">Email address</label>
+              <label className="form-label" htmlFor="reg-email">Email Address</label>
               <div className="relative">
-                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input
                   id="reg-email"
                   type="email"
-                  className={`form-input pl-10 ${errors.email ? 'border-red-500/70' : ''}`}
-                  placeholder="you@example.com"
+                  className={`form-input pl-9.5 text-xs ${errors.email ? 'border-rose-500/70' : ''}`}
+                  placeholder="name@company.com"
                   value={form.email}
                   onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
                   autoComplete="email"
                 />
               </div>
-              {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+              {errors.email && <p className="text-rose-400 text-[11px] mt-1 font-mono">{errors.email}</p>}
             </div>
 
             {/* Password */}
             <div>
               <label className="form-label" htmlFor="reg-password">Password</label>
               <div className="relative">
-                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input
                   id="reg-password"
                   type={showPassword ? 'text' : 'password'}
-                  className={`form-input pl-10 pr-10 ${errors.password ? 'border-red-500/70' : ''}`}
+                  className={`form-input pl-9.5 pr-10 text-xs ${errors.password ? 'border-rose-500/70' : ''}`}
                   placeholder="Min. 6 characters"
                   value={form.password}
                   onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
@@ -153,42 +143,48 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(p => !p)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
                 >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
               </div>
-              {/* Password strength bar */}
+
+              {/* Password strength */}
               {form.password && (
                 <div className="mt-2">
-                  <div className="h-1 bg-slate-700 rounded-full overflow-hidden">
+                  <div className="h-1 bg-[#182133] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-300 ${strength.color}`}
                       style={{ width: `${(strength.score / 5) * 100}%` }}
                     />
                   </div>
-                  <p className="text-xs text-slate-500 mt-1">{strength.label}</p>
+                  <div className="flex items-center justify-between text-[10px] text-slate-500 mt-1 font-mono">
+                    <span>Security rating</span>
+                    <span className="font-semibold text-slate-400">{strength.label}</span>
+                  </div>
                 </div>
               )}
-              {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
+              {errors.password && <p className="text-rose-400 text-[11px] mt-1 font-mono">{errors.password}</p>}
             </div>
 
             {/* Confirm Password */}
             <div>
-              <label className="form-label" htmlFor="reg-confirm">Confirm password</label>
+              <label className="form-label" htmlFor="reg-confirm">Confirm Password</label>
               <div className="relative">
-                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input
                   id="reg-confirm"
                   type="password"
-                  className={`form-input pl-10 ${errors.confirmPassword ? 'border-red-500/70' : ''}`}
+                  className={`form-input pl-9.5 text-xs ${errors.confirmPassword ? 'border-rose-500/70' : ''}`}
                   placeholder="Repeat your password"
                   value={form.confirmPassword}
                   onChange={e => setForm(p => ({ ...p, confirmPassword: e.target.value }))}
                   autoComplete="new-password"
                 />
               </div>
-              {errors.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword}</p>}
+              {errors.confirmPassword && (
+                <p className="text-rose-400 text-[11px] mt-1 font-mono">{errors.confirmPassword}</p>
+              )}
             </div>
 
             {/* Submit */}
@@ -196,19 +192,22 @@ const RegisterPage = () => {
               type="submit"
               id="register-submit"
               disabled={loading}
-              className="btn-primary w-full mt-2"
+              className="btn-primary w-full text-xs py-2.5 mt-2"
             >
               {loading ? (
                 <span className="spinner" />
               ) : (
-                <>Create Account <ArrowRight size={16} /></>
+                <>
+                  <span>Create Account</span>
+                  <ArrowRight size={14} />
+                </>
               )}
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-slate-400">
+          <div className="mt-5 pt-4 border-t border-[#1a2336] text-center text-xs text-slate-500">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary-400 hover:text-primary-300 font-medium">
+            <Link to="/login" className="text-emerald-400 hover:text-emerald-300 font-medium">
               Sign in
             </Link>
           </div>

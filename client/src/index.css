@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-100 font-sans;
+    background-image: 
+      radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track { @apply bg-slate-900; }
+  ::-webkit-scrollbar-thumb { @apply bg-slate-600 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-slate-500; }
+}
+
+@layer components {
+  /* Glass card effect */
+  .glass-card {
+    @apply bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+  .glass-card-hover:hover {
+    @apply bg-slate-800/70 border-slate-600/60;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.07);
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-500 text-white font-semibold py-2.5 px-5 rounded-xl
+           transition-all duration-200 flex items-center gap-2 justify-center
+           focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 focus:ring-offset-slate-900
+           disabled:opacity-50 disabled:cursor-not-allowed active:scale-95;
+    box-shadow: 0 4px 14px rgba(99,102,241,0.4);
+  }
+  .btn-primary:hover:not(:disabled) {
+    box-shadow: 0 6px 20px rgba(99,102,241,0.5);
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply bg-slate-700 hover:bg-slate-600 text-slate-100 font-semibold py-2.5 px-5 rounded-xl
+           transition-all duration-200 flex items-center gap-2 justify-center
+           focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:ring-offset-2 focus:ring-offset-slate-900
+           disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 border border-slate-600;
+  }
+
+  /* Danger button */
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-4 rounded-xl
+           transition-all duration-200 flex items-center gap-2 justify-center
+           focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-slate-900
+           disabled:opacity-50 disabled:cursor-not-allowed active:scale-95;
+  }
+
+  /* Form input */
+  .form-input {
+    @apply w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-slate-100
+           placeholder-slate-500 transition-all duration-200
+           focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20;
+  }
+
+  /* Form label */
+  .form-label {
+    @apply block text-sm font-medium text-slate-300 mb-1.5;
+  }
+
+  /* Stats card */
+  .stats-card {
+    @apply glass-card p-6 flex flex-col gap-2;
+  }
+
+  /* Badge */
+  .badge-income {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold
+           bg-emerald-500/15 text-emerald-400 border border-emerald-500/20;
+  }
+  .badge-expense {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold
+           bg-red-500/15 text-red-400 border border-red-500/20;
+  }
+
+  /* Sidebar */
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 font-medium
+           transition-all duration-200 hover:bg-slate-700/50 hover:text-slate-100;
+  }
+  .sidebar-link.active {
+    @apply bg-primary-600/20 text-primary-400 border border-primary-500/20;
+  }
+
+  /* Loading spinner */
+  .spinner {
+    @apply w-5 h-5 border-2 border-slate-600 border-t-primary-500 rounded-full animate-spin;
+  }
+
+  /* Page title */
+  .page-title {
+    @apply text-2xl font-bold text-slate-100 tracking-tight;
+  }
+  .page-subtitle {
+    @apply text-sm text-slate-400 mt-1;
+  }
+
+  /* Table */
+  .table-row {
+    @apply border-b border-slate-700/50 hover:bg-slate-700/20 transition-colors duration-150;
+  }
+  .table-header {
+    @apply text-xs font-semibold text-slate-400 uppercase tracking-wider px-4 py-3;
+  }
+  .table-cell {
+    @apply px-4 py-3 text-sm text-slate-300;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-violet-400;
+  }
+
+  /* Number formatting */
+  .amount-income { @apply text-emerald-400 font-semibold; }
+  .amount-expense { @apply text-red-400 font-semibold; }
+
+  /* Card glow */
+  .glow-primary { box-shadow: 0 0 40px rgba(99,102,241,0.15); }
+  .glow-green   { box-shadow: 0 0 40px rgba(34,197,94,0.15); }
+  .glow-red     { box-shadow: 0 0 40px rgba(239,68,68,0.15); }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .bg-mesh {
+    background-image: 
+      radial-gradient(at 40% 20%, rgba(99,102,241,0.12) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(139,92,246,0.08) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(16,185,129,0.06) 0px, transparent 50%);
+  }
+}
+
+/* Toast overrides */
+.hot-toast-container { z-index: 9999 !important; }

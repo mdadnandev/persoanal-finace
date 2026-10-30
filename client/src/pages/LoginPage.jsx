@@ -127,7 +127,7 @@ const LoginPage = () => {
               onClick={() => setForm({ email: 'adnan@example.com', password: 'Password123!' })}
               className="w-full mt-2 py-2 px-3 text-xs text-primary-400 bg-primary-950/40 border border-primary-800/50 hover:bg-primary-900/40 rounded-xl transition-colors font-medium flex items-center justify-center gap-1.5"
             >
-              ⚡ Fill Demo Credentials (adnan@example.com)
+
             </button>
           </form>
 
@@ -142,7 +142,7 @@ const LoginPage = () => {
         {/* Demo hint */}
         <div className="mt-4 p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 text-center">
           <p className="text-xs text-slate-400">
-            🔑 Demo Login: <span className="text-slate-200 font-mono">adnan@example.com</span> &bull; Password: <span className="text-slate-200 font-mono">Password123!</span>
+
           </p>
         </div>
       </div>
